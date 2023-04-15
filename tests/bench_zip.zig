@@ -108,7 +108,6 @@ pub fn main() !void {
             else
                 std.io.StreamSource{ .file = fd };
 
-
             var arc = archive.formats.zip.writer.ArchiveWriter.init(alloc, &stream);
             defer arc.deinit();
 
@@ -217,7 +216,7 @@ pub fn main() !void {
 
             var size: usize = 0;
 
-            for (arc.directory.items) |_, j| {
+            for (0..arc.directory.items.len) |j| {
                 const hdr = arc.getHeader(j);
 
                 size += hdr.uncompressed_size;

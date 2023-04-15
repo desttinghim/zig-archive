@@ -14,11 +14,9 @@ const bench = .{
 pub fn build(b: *Builder) void {
     const optimize = b.standardOptimizeOption(.{});
 
-    b.addModule(.{
-        .name = "archive",
+    const archive_module = b.addModule("archive", .{
         .source_file = .{ .path = "src/main.zig" },
     });
-    const archive_module = b.modules.get("archive") orelse unreachable;
 
     // Library Tests
 

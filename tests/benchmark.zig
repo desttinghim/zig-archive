@@ -39,7 +39,7 @@ pub fn Benchmark(
         }
 
         fn indexOf(comptime field: []const u8) comptime_int {
-            inline for (datasets) |dataset, i| {
+            inline for (datasets, 0..) |dataset, i| {
                 if (std.mem.eql(u8, dataset, field)) return i;
             }
 
