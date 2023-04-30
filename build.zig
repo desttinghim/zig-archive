@@ -45,8 +45,8 @@ pub fn build(b: *Builder) void {
 
         zip_runner.addModule("archive", archive_module);
 
-        zip_runner.install();
-        const run_zip_runner = zip_runner.run();
+        _ = b.addInstallArtifact(zip_runner);
+        const run_zip_runner = b.addRunArtifact(zip_runner);
 
         const run_tests = b.step(file, "Run tests");
         run_tests.dependOn(&run_zip_runner.step);
@@ -72,8 +72,8 @@ pub fn build(b: *Builder) void {
         zip_bench.addOptions("build_options", bench_options);
         zip_bench.addModule("archive", archive_module);
 
-        zip_bench.install();
-        const run_zip_bench = zip_bench.run();
+        _ = b.addInstallArtifact(zip_bench);
+        const run_zip_bench = b.addRunArtifact(zip_bench);
 
         const zip_bench_step = b.step(file, "Run benchmark");
         zip_bench_step.dependOn(&run_zip_bench.step);
