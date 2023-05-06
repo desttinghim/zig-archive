@@ -111,7 +111,8 @@ pub const ArchiveReader = struct {
         var eocd_offset: usize = 0;
         find_eocd: while (true) {
             if ((try seeker.getPos()) == 0) return error.NotAnArchive;
-            try seeker.seekBy(-1021);
+            const seek_by = @intCast(i64, @min(1021, try seeker.getEndPos()));
+            try seeker.seekBy(-seek_by);
 
             const read = try reader.readAll(buf);
             if (read < 4) return error.NotAnArchive;
