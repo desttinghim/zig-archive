@@ -49,7 +49,7 @@ pub fn main() !void {
                 try arc.writeString(name, "aaaa", false);
             }
 
-            const offset = @intCast(usize, try stream.getPos());
+            const offset = @as(usize, @intCast(try stream.getPos()));
 
             benchmark.add("add", timer.read());
             benchmark.setSize("add", offset);
@@ -58,7 +58,7 @@ pub fn main() !void {
 
             try arc.finish();
 
-            const offset_after = @intCast(usize, try stream.getPos());
+            const offset_after = @as(usize, @intCast(try stream.getPos()));
 
             benchmark.add("finish", timer.read());
             benchmark.setSize("finish", offset_after - offset);
@@ -121,7 +121,7 @@ pub fn main() !void {
                 try arc.writeString(name, "aaaa" ** 4096, true);
             }
 
-            const offset = @intCast(usize, try stream.getPos());
+            const offset = @as(usize, @intCast(try stream.getPos()));
 
             benchmark.add("add", timer.read());
             benchmark.setSize("add", offset);
@@ -130,7 +130,7 @@ pub fn main() !void {
 
             try arc.finish();
 
-            const offset_after = @intCast(usize, try stream.getPos());
+            const offset_after = @as(usize, @intCast(try stream.getPos()));
 
             benchmark.add("finish", timer.read());
             benchmark.setSize("finish", offset_after - offset);

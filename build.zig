@@ -28,11 +28,6 @@ pub fn build(b: *Builder) void {
     const lib_tests_step = b.step("test", "Run all library tests");
     lib_tests_step.dependOn(&lib_tests.step);
 
-    const docs = b.option(bool, "emit_docs", "Build library documentation") orelse false;
-
-    if (docs)
-        lib_tests.emit_docs = .emit;
-
     // Test Runners
 
     inline for (tests) |file| {
@@ -45,7 +40,7 @@ pub fn build(b: *Builder) void {
 
         zip_runner.addModule("archive", archive_module);
 
-        _ = b.addInstallArtifact(zip_runner);
+        _ = b.addInstallArtifact(zip_runner, .{});
         const run_zip_runner = b.addRunArtifact(zip_runner);
 
         const run_tests = b.step(file, "Run tests");
@@ -72,7 +67,7 @@ pub fn build(b: *Builder) void {
         zip_bench.addOptions("build_options", bench_options);
         zip_bench.addModule("archive", archive_module);
 
-        _ = b.addInstallArtifact(zip_bench);
+        _ = b.addInstallArtifact(zip_bench, .{});
         const run_zip_bench = b.addRunArtifact(zip_bench);
 
         const zip_bench_step = b.step(file, "Run benchmark");

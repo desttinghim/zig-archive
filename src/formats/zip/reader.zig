@@ -111,7 +111,7 @@ pub const ArchiveReader = struct {
         var eocd_offset: usize = 0;
         find_eocd: while (true) {
             if ((try seeker.getPos()) == 0) return error.NotAnArchive;
-            const seek_by = @intCast(i64, @min(1021, try seeker.getEndPos()));
+            const seek_by = @as(i64, @intCast(@min(1021, try seeker.getEndPos())));
             try seeker.seekBy(-seek_by);
 
             const read = try reader.readAll(buf);
@@ -155,7 +155,7 @@ pub const ArchiveReader = struct {
                 while (offset >= 0) : (offset -= 1) {
                     const signature = std.mem.readIntLittle(u32, buf[offset..][0..4]);
                     if (signature == format.EndOfCentralDirectory64Locator.signature) {
-                        try seeker.seekBy(-@intCast(i64, read - offset) + 4);
+                        try seeker.seekBy(-@as(i64, @intCast(read - offset)) + 4);
                         break :find_eocd64l;
                     }
 
@@ -235,7 +235,7 @@ pub const ArchiveReader = struct {
 
                         const nread64 = pos - before;
                         if (nread64 != data_len) {
-                            try BufferedSeekableSource.seekBy(seeker, &buffered, @intCast(i64, data_len - nread64));
+                            try BufferedSeekableSource.seekBy(seeker, &buffered, @as(i64, @intCast(data_len - nread64)));
                             pos += data_len - nread64;
                         }
                     } else {
