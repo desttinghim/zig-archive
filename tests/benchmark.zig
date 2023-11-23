@@ -91,7 +91,7 @@ pub fn Benchmark(
         pub fn median(self: Self, comptime field: []const u8) f64 {
             const items = self.measurements[indexOf(field)].items;
 
-            std.sort.sort(f64, items, {}, comptime std.sort.asc(f64));
+            std.sort.insertion(f64, items, {}, comptime std.sort.asc(f64));
 
             if (items.len % 2 == 0) {
                 return (items[items.len / 2] + items[items.len / 2 - 1]) / 2;

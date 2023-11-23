@@ -85,7 +85,7 @@ pub fn mixin(comptime ReaderType: type, comptime SeekerType: type) type {
             fn read(self: *Self, dest: []u8) Error!usize {
                 if (self.pos >= self.limit) return 0;
 
-                const left = std.math.min(self.limit - self.pos, dest.len);
+                const left = @min(self.limit - self.pos, dest.len);
                 const num_read = try self.unlimited_reader.read(dest[0..left]);
                 self.pos += num_read;
 
